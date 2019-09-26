@@ -1,0 +1,83 @@
+<div class="form-horizontal">
+    <h3>Create a new Commande</h3>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-sm-2">
+            <a id="Create" name="Create" class="btn btn-primary" href="#/Commandes/new"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
+        </div>
+    </div>
+</div>
+<hr/>
+<div>
+    <h3>Search for Commandes</h3>
+    <form id="CommandeSearch" class="form-horizontal">
+            <div class="form-group">
+        <label for="prixTotal" class="col-sm-2 control-label">Prix Total</label>
+        <div class="col-sm-10">
+            <input id="prixTotal" name="prixTotal" class="form-control" type="text" ng-model="search.prixTotal" placeholder="Enter the Commande Prix Total"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="client" class="col-sm-2 control-label">Client</label>
+        <div class="col-sm-10">
+            <select id="client" name="client" class="form-control" ng-model="search.client" ng-options="c as c.id for c in clientList">
+                <option value="">Choose a Client</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="restaurant" class="col-sm-2 control-label">Restaurant</label>
+        <div class="col-sm-10">
+            <select id="restaurant" name="restaurant" class="form-control" ng-model="search.restaurant" ng-options="r as r.id for r in restaurantList">
+                <option value="">Choose a Restaurant</option>
+            </select>
+        </div>
+    </div>
+
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-sm-10">
+                <a id="Search" name="Search" class="btn btn-primary" ng-click="performSearch()"><span class="glyphicon glyphicon-search"></span> Search</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="search-results">
+        <div class="table-responsive">
+        <table class="table table-responsive table-bordered table-striped clearfix">
+            <thead>
+                <tr>
+                    <th>Prix Total</th>
+                    <th>Client</th>
+                    <th>Restaurant</th>
+                    <th>Date Commande</th>
+                </tr>
+            </thead>
+            <tbody id="search-results-body">
+                <tr ng-repeat="result in filteredResults | startFrom:currentPage*pageSize | limitTo:pageSize">
+                    <td><a href="#/Commandes/edit/{{result.id}}">{{result.prixTotal}}</a></td>
+                        <td><a href="#/Commandes/edit/{{result.id}}">{{result.client.id}}</a></td>
+                        <td><a href="#/Commandes/edit/{{result.id}}">{{result.restaurant.id}}</a></td>
+                    <td><a href="#/Commandes/edit/{{result.id}}">{{result.dateCommande| date:'yyyy-MM-dd HH:mm:ss Z'}}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+        <ul class="pagination pagination-centered">
+        <li ng-class="{disabled:currentPage == 0}">
+            <a id="prev" href ng-click="previous()">«</a>
+        </li>
+        <li ng-repeat="n in pageRange" ng-class="{active:currentPage == n}" ng-click="setPage(n)">
+            <a href ng-bind="n + 1">1</a>
+        </li>
+        <li ng-class="{disabled: currentPage == (numberOfPages() - 1)}">
+            <a id="next" href ng-click="next()">»</a>
+        </li>
+    </ul>
+
+</div>

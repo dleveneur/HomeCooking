@@ -34,6 +34,8 @@
                     </a>
                     <nav class="sidebar-nav" ng-controller="NavController" role="navigation">
                         <div id="sidebar-entries" class="list-group">
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('Commandes')}" href="#/Commandes" data-toggle="offcanvas">Commandes</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('CommandeDetails')}" href="#/CommandeDetails" data-toggle="offcanvas">CommandeDetails</a>
                         	<a class="list-group-item" ng-class="{active: matchesRoute('Restaurants')}" href="#/Restaurants" data-toggle="offcanvas">Restaurants</a>
                         	<a class="list-group-item" ng-class="{active: matchesRoute('Restaurations')}" href="#/Restaurations" data-toggle="offcanvas">Restaurations</a>
                         	<a class="list-group-item" ng-class="{active: matchesRoute('Utilisateurs')}" href="#/Utilisateurs" data-toggle="offcanvas">Utilisateurs</a>
@@ -76,6 +78,14 @@
     <script src="scripts/services/flash.js"></script>
     <script src="scripts/services/locationParser.js"></script>
     <script src="scripts/controllers/flashController.js"></script>
+    <script src="scripts/services/CommandeFactory.js"></script>
+    <script src="scripts/controllers/newCommandeController.js"></script>
+    <script src="scripts/controllers/searchCommandeController.js"></script>
+    <script src="scripts/controllers/editCommandeController.js"></script>
+    <script src="scripts/services/CommandeDetailFactory.js"></script>
+    <script src="scripts/controllers/newCommandeDetailController.js"></script>
+    <script src="scripts/controllers/searchCommandeDetailController.js"></script>
+    <script src="scripts/controllers/editCommandeDetailController.js"></script>
     <script src="scripts/services/RestaurantFactory.js"></script>
     <script src="scripts/controllers/newRestaurantController.js"></script>
     <script src="scripts/controllers/searchRestaurantController.js"></script>
