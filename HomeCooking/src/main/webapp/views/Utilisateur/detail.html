@@ -1,0 +1,67 @@
+<header ng-switch on="$location.path().indexOf('/Utilisateurs/new') > -1">
+    <h3 ng-switch-when="true">Create a new Utilisateur</h3>
+    <h3 ng-switch-when="false">View or edit Utilisateur</h3>
+</header>
+<form id="UtilisateurForm" name="UtilisateurForm" class="form-horizontal" role="form">
+    
+    <div class="form-group" ng-class="{'has-error': UtilisateurForm.nom.$invalid}">
+        <label for="nom" class="col-sm-2 control-label">Nom</label>
+        <div id="nomControls" class="col-sm-10">
+            <input id="nom" name="nom" type="text" class="form-control" ng-model="utilisateur.nom" placeholder="Enter the Utilisateur Nom"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UtilisateurForm.prenom.$invalid}">
+        <label for="prenom" class="col-sm-2 control-label">Prenom</label>
+        <div id="prenomControls" class="col-sm-10">
+            <input id="prenom" name="prenom" type="text" class="form-control" ng-model="utilisateur.prenom" placeholder="Enter the Utilisateur Prenom"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UtilisateurForm.email.$invalid}">
+        <label for="email" class="col-sm-2 control-label">Email</label>
+        <div id="emailControls" class="col-sm-10">
+            <input id="email" name="email" type="text" class="form-control" ng-model="utilisateur.email" placeholder="Enter the Utilisateur Email"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UtilisateurForm.mdp.$invalid}">
+        <label for="mdp" class="col-sm-2 control-label">Mdp</label>
+        <div id="mdpControls" class="col-sm-10">
+            <input id="mdp" name="mdp" type="text" class="form-control" ng-model="utilisateur.mdp" placeholder="Enter the Utilisateur Mdp"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UtilisateurForm.adresse.$invalid}">
+        <label for="adresse" class="col-sm-2 control-label">Adresse</label>
+        <div id="adresseControls" class="col-sm-10">
+            <input id="adresse" name="adresse" type="text" class="form-control" ng-model="utilisateur.adresse" placeholder="Enter the Utilisateur Adresse"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UtilisateurForm.numeroTel.$invalid}">
+        <label for="numeroTel" class="col-sm-2 control-label">Numero Tel</label>
+        <div id="numeroTelControls" class="col-sm-10">
+            <input id="numeroTel" name="numeroTel" type="text" class="form-control" ng-model="utilisateur.numeroTel" placeholder="Enter the Utilisateur Numero Tel"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': UtilisateurForm.role.$invalid}">
+        <label for="role" class="col-sm-2 control-label">Role</label>
+        <div id="roleControls" class="col-sm-10">
+        <select id="role" name="role" class="form-control" ng-model="utilisateur.role" ng-options="r for r in roleList"  >
+            <option value="">Choose a Role</option>
+        </select>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveUtilisateur" name="saveUtilisateur" class="btn btn-primary" ng-disabled="isClean() || UtilisateurForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteUtilisateur" name="deleteUtilisateur" class="btn btn-danger" ng-show="utilisateur.id" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>

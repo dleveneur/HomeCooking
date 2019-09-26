@@ -34,7 +34,9 @@
                     </a>
                     <nav class="sidebar-nav" ng-controller="NavController" role="navigation">
                         <div id="sidebar-entries" class="list-group">
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('Restaurants')}" href="#/Restaurants" data-toggle="offcanvas">Restaurants</a>
                         	<a class="list-group-item" ng-class="{active: matchesRoute('Restaurations')}" href="#/Restaurations" data-toggle="offcanvas">Restaurations</a>
+                        	<a class="list-group-item" ng-class="{active: matchesRoute('Utilisateurs')}" href="#/Utilisateurs" data-toggle="offcanvas">Utilisateurs</a>
                         </div>
                     </nav>
                 </div>
@@ -74,9 +76,17 @@
     <script src="scripts/services/flash.js"></script>
     <script src="scripts/services/locationParser.js"></script>
     <script src="scripts/controllers/flashController.js"></script>
+    <script src="scripts/services/RestaurantFactory.js"></script>
+    <script src="scripts/controllers/newRestaurantController.js"></script>
+    <script src="scripts/controllers/searchRestaurantController.js"></script>
+    <script src="scripts/controllers/editRestaurantController.js"></script>
     <script src="scripts/services/RestaurationFactory.js"></script>
     <script src="scripts/controllers/newRestaurationController.js"></script>
     <script src="scripts/controllers/searchRestaurationController.js"></script>
     <script src="scripts/controllers/editRestaurationController.js"></script>
+    <script src="scripts/services/UtilisateurFactory.js"></script>
+    <script src="scripts/controllers/newUtilisateurController.js"></script>
+    <script src="scripts/controllers/searchUtilisateurController.js"></script>
+    <script src="scripts/controllers/editUtilisateurController.js"></script>
 </body>
 </html>

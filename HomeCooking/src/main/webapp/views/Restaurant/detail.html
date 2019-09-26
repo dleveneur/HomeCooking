@@ -1,0 +1,46 @@
+<header ng-switch on="$location.path().indexOf('/Restaurants/new') > -1">
+    <h3 ng-switch-when="true">Create a new Restaurant</h3>
+    <h3 ng-switch-when="false">View or edit Restaurant</h3>
+</header>
+<form id="RestaurantForm" name="RestaurantForm" class="form-horizontal" role="form">
+    
+    <div class="form-group" ng-class="{'has-error': RestaurantForm.nom.$invalid}">
+        <label for="nom" class="col-sm-2 control-label">Nom</label>
+        <div id="nomControls" class="col-sm-10">
+            <input id="nom" name="nom" type="text" class="form-control" ng-model="restaurant.nom" placeholder="Enter the Restaurant Nom"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': RestaurantForm.restaurateur.$invalid}">
+        <label for="restaurateur" class="col-sm-2 control-label">Restaurateur</label>
+        <div id="restaurateurControls" class="col-sm-10">
+        <select id="restaurateur" name="restaurateur" class="form-control" ng-model="restaurateurSelection" ng-options="r.text for r in restaurateurSelectionList"  >
+            <option value="">Choose a Restaurateur</option>
+        </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': RestaurantForm.adresse.$invalid}">
+        <label for="adresse" class="col-sm-2 control-label">Adresse</label>
+        <div id="adresseControls" class="col-sm-10">
+            <input id="adresse" name="adresse" type="text" class="form-control" ng-model="restaurant.adresse" placeholder="Enter the Restaurant Adresse"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': RestaurantForm.numero.$invalid}">
+        <label for="numero" class="col-sm-2 control-label">Numero</label>
+        <div id="numeroControls" class="col-sm-10">
+            <input id="numero" name="numero" type="text" class="form-control" ng-model="restaurant.numero" placeholder="Enter the Restaurant Numero"></input>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveRestaurant" name="saveRestaurant" class="btn btn-primary" ng-disabled="isClean() || RestaurantForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteRestaurant" name="deleteRestaurant" class="btn btn-danger" ng-show="restaurant.id" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>
