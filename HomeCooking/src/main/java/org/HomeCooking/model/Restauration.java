@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 import java.io.Serializable;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -12,7 +15,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 public class Restauration implements Serializable {
-
+	
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
@@ -21,6 +26,53 @@ public class Restauration implements Serializable {
 	@Version
 	@Column(name = "version")
 	private int version;
+	
+	@Column(name = "nom")
+	private String nom;
+	
+	@Column(name = "prix")
+	private float prix;
+	
+	@Column(name = "ingredients", columnDefinition="TEXT")
+	private String ingredients;
+	
+	
+	@Column(name = "type")
+	@Enumerated(EnumType.STRING)
+	private Type type;
+
+	
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public float getPrix() {
+		return prix;
+	}
+
+	public void setPrix(float prix) {
+		this.prix = prix;
+	}
+
+	public String getIngredients() {
+		return ingredients;
+	}
+
+	public void setIngredients(String ingredients) {
+		this.ingredients = ingredients;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(Type type) {
+		this.type = type;
+	}
 
 	public Long getId() {
 		return id;

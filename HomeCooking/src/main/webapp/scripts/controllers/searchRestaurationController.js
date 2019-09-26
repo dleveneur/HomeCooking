@@ -17,6 +17,10 @@ angular.module('homeCooking').controller('SearchRestaurationController', functio
         }
         return max;
     };
+    $scope.typeList = [
+        "Plat",
+        "Boisson"
+    ];
 
     $scope.performSearch = function() {
         $scope.searchResults = RestaurationResource.queryAll(function(){

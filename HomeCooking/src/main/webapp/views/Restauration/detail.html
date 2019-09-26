@@ -3,7 +3,38 @@
     <h3 ng-switch-when="false">View or edit Restauration</h3>
 </header>
 <form id="RestaurationForm" name="RestaurationForm" class="form-horizontal" role="form">
-    
+        <div class="form-group" ng-class="{'has-error': RestaurationForm.nom.$invalid}">
+        <label for="nom" class="col-sm-2 control-label">Nom</label>
+        <div id="nomControls" class="col-sm-10">
+            <input id="nom" name="nom" type="text" class="form-control" ng-model="restauration.nom" placeholder="Enter the Restauration Nom"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': RestaurationForm.prix.$invalid}">
+        <label for="prix" class="col-sm-2 control-label">Prix</label>
+        <div id="prixControls" class="col-sm-10">
+            <input id="prix" name="prix" type="number" class="form-control" ng-model="restauration.prix" placeholder="Enter the Restauration Prix"></input>
+            <span class="help-block error" ng-show="RestaurationForm.prix.$error.number">not a number</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': RestaurationForm.ingredients.$invalid}">
+        <label for="ingredients" class="col-sm-2 control-label">Ingredients</label>
+        <div id="ingredientsControls" class="col-sm-10">
+            <input id="ingredients" name="ingredients" type="text" class="form-control" ng-model="restauration.ingredients" placeholder="Enter the Restauration Ingredients"></input>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': RestaurationForm.type.$invalid}">
+        <label for="type" class="col-sm-2 control-label">Type</label>
+        <div id="typeControls" class="col-sm-10">
+        <select id="type" name="type" class="form-control" ng-model="restauration.type" ng-options="t for t in typeList"  >
+            <option value="">Choose a Type</option>
+        </select>
+        </div>
+    </div>
+
+
 
 
     <div class="form-group">

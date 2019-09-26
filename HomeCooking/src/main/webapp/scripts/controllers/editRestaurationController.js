@@ -55,6 +55,10 @@ angular.module('homeCooking').controller('EditRestaurationController', function(
         $scope.restauration.$remove(successCallback, errorCallback);
     };
     
+    $scope.typeList = [
+        "Plat",  
+        "Boisson"  
+    ];
     
     $scope.get();
 });

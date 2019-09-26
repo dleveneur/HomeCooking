@@ -4,6 +4,11 @@ angular.module('homeCooking').controller('NewRestaurationController', function (
     $scope.$location = $location;
     $scope.restauration = $scope.restauration || {};
     
+    $scope.typeList = [
+        "Plat",
+        "Boisson"
+    ];
+    
 
     $scope.save = function() {
         var successCallback = function(data,responseHeaders){
