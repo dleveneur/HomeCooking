@@ -43,6 +43,10 @@ public class Restaurant implements Serializable {
 		this.id = id;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	public String getNom() {
 		return nom;
 	}

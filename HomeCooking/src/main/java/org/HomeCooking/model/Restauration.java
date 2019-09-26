@@ -42,6 +42,10 @@ public class Restauration implements Serializable {
 	private Type type;
 
 	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	public String getNom() {
 		return nom;
 	}
