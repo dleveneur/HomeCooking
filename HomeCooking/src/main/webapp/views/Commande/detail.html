@@ -1,0 +1,50 @@
+<header ng-switch on="$location.path().indexOf('/Commandes/new') > -1">
+    <h3 ng-switch-when="true">Create a new Commande</h3>
+    <h3 ng-switch-when="false">View or edit Commande</h3>
+</header>
+<form id="CommandeForm" name="CommandeForm" class="form-horizontal" role="form">
+        <div class="form-group" ng-class="{'has-error': CommandeForm.prixTotal.$invalid}">
+        <label for="prixTotal" class="col-sm-2 control-label">Prix Total</label>
+        <div id="prixTotalControls" class="col-sm-10">
+            <input id="prixTotal" name="prixTotal" type="number" class="form-control" ng-model="commande.prixTotal" placeholder="Enter the Commande Prix Total"></input>
+            <span class="help-block error" ng-show="CommandeForm.prixTotal.$error.number">not a number</span>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': CommandeForm.client.$invalid}">
+        <label for="client" class="col-sm-2 control-label">Client</label>
+        <div id="clientControls" class="col-sm-10">
+        <select id="client" name="client" class="form-control" ng-model="clientSelection" ng-options="c.text for c in clientSelectionList"  >
+            <option value="">Choose a Client</option>
+        </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': CommandeForm.restaurant.$invalid}">
+        <label for="restaurant" class="col-sm-2 control-label">Restaurant</label>
+        <div id="restaurantControls" class="col-sm-10">
+        <select id="restaurant" name="restaurant" class="form-control" ng-model="restaurantSelection" ng-options="r.text for r in restaurantSelectionList"  >
+            <option value="">Choose a Restaurant</option>
+        </select>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': CommandeForm.dateCommande.$invalid}">
+        <label for="dateCommande" class="col-sm-2 control-label">Date Commande</label>
+        <div id="dateCommandeControls" class="col-sm-10">
+            <datetime id="dateCommande" name="dateCommande" ng-model="commande.dateCommande" placeholder="Enter the Commande Date Commande"></datetime>
+            <span class="help-block error" ng-show="CommandeForm.dateCommande.$error.datetimeFormat">does not match format "yyyy-MM-dd hh:mm:ss" (e.g. 2013-12-01 22:00:00)</span>
+        </div>
+    </div>
+
+
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveCommande" name="saveCommande" class="btn btn-primary" ng-disabled="isClean() || CommandeForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteCommande" name="deleteCommande" class="btn btn-danger" ng-show="commande.id" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>
