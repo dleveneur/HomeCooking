@@ -1,0 +1,16 @@
+<header ng-switch on="$location.path().indexOf('/Restaurations/new') > -1">
+    <h3 ng-switch-when="true">Create a new Restauration</h3>
+    <h3 ng-switch-when="false">View or edit Restauration</h3>
+</header>
+<form id="RestaurationForm" name="RestaurationForm" class="form-horizontal" role="form">
+    
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button id="saveRestauration" name="saveRestauration" class="btn btn-primary" ng-disabled="isClean() || RestaurationForm.$invalid" ng-click="save()"><span class="glyphicon glyphicon-ok-sign"></span> Save</button>
+            <button id="cancel" name="cancel" class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
+            <button id="deleteRestauration" name="deleteRestauration" class="btn btn-danger" ng-show="restauration.id" ng-click="remove()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+        </div>
+    </div>
+</form>
