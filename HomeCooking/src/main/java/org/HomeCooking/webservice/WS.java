@@ -15,6 +15,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.HomeCooking.model.Commande;
+import org.HomeCooking.model.CommandeDetail;
 //import org.AgentTicket.model.Agent;
 import org.HomeCooking.model.Restaurant;
 import org.HomeCooking.model.Restauration;
@@ -172,7 +174,7 @@ public class WS {
 	
 	// recherche d'une boisson via l'id
 	@GET
-	@Path("/recherche/boisson/id/{id}")
+	@Path("/recherche/boisson/{id}")
 	@Produces("application/json")
 	public Response getBoissonById(@PathParam("id") Long id) {
 		List<Restauration> restaurations = null;
@@ -192,6 +194,39 @@ public class WS {
 		return Response.ok(restaurations).build();
 	}
 	
+	// liste des commandes
+	@GET
+	@Path("/commandes")
+	@Produces("application/json")
+	public Response getAllCommande() {
+		List<Commande> commande = null;
+		TypedQuery<Commande> requete	=	em.createQuery("SELECT c FROM Commande c ", Commande.class);
+		commande = requete.getResultList();
+		return Response.ok(commande).build();
+	}
+	
+	
+	//	recherche d'une commande par ID
+	@GET
+	@Path("/commande/{id}")
+	@Produces("application/json")
+	public Response getCommandeById(@PathParam("id") Long id) {
+		List<Commande> commande = null;
+		TypedQuery<Commande> requete	=	em.createQuery("SELECT c FROM Commande c WHERE c.id = :id ", Commande.class).setParameter("id", id);
+		commande = requete.getResultList();
+		return Response.ok(commande).build();
+	}
+	
+	//	Details d'une Commande par Id
+	@GET
+	@Path("/commande/detail/{id}")
+	@Produces("application/json")
+	public Response getDetailCommandeById(@PathParam("id") Long id) {
+		List<CommandeDetail> commandeDetail = null;
+		TypedQuery<CommandeDetail> requete	=	em.createQuery("SELECT c FROM Commande c WHERE c.commande_id = :id ", CommandeDetail.class).setParameter("id", id);
+		commandeDetail = requete.getResultList();
+		return Response.ok(commandeDetail).build();
+	}
 		
 	@GET
 	@Path("/debug")
