@@ -24,6 +24,7 @@ import org.HomeCooking.model.CommandeDetail;
 import org.HomeCooking.model.Restaurant;
 import org.HomeCooking.model.Restauration;
 import org.HomeCooking.model.Utilisateur;
+import org.json.simple.JSONObject;
 
 import LecteurFichiers.JSON;
 
@@ -242,6 +243,8 @@ public class WS {
 		TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r", Restauration.class);
 		//TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r WHERE r.nom LIKE '%:?%' OR r.ingredients LIKE '%:?%' ", Restauration.class).setParameter(1,nom).setParameter(2,nom);
 		restaurations = requete.getResultList();
+		
+		restaurations.forEach( jlist -> return (jlist) );
 		
 		return restaurations.toString();
 		
