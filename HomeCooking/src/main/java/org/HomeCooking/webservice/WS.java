@@ -25,6 +25,8 @@ public class WS {
    @PersistenceContext(unitName="primary")
    public EntityManager em; 
 	
+   	@OPTION
+   
 	@GET
 	@Path("/utilisateur/{id}")
 	@Produces("application/json")
