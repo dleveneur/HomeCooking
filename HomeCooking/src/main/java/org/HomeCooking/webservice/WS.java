@@ -100,7 +100,7 @@ public class WS {
 	
 	// recherche de restaurant par l'id
 	@GET
-	@Path("/recherche/restaurant/id/{id}")
+	@Path("/recherche/restaurant/{id}")
 	@Produces("application/json")
 	public Response getRestaurantById(@PathParam("id") Long id) {
 		List<Restaurant> listRestaurants = em.createQuery("SELECT r FROM Restaurant r WHERE r.id = :id ", Restaurant.class).setParameter("id", id).getResultList();
@@ -127,7 +127,7 @@ public class WS {
 	
 	// recherche d'une restauration via l'id
 	@GET
-	@Path("/recherche/restauration/id/{id}")
+	@Path("/recherche/restauration/{id}")
 	@Produces("application/json")
 	public Response getRestaurationByName(@PathParam("id") Long id) {
 		List<Restauration> restaurations = null;
