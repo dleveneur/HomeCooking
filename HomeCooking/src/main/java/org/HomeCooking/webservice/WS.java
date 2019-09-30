@@ -13,7 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import org.AgentTicket.model.Agent;
+//import org.AgentTicket.model.Agent;
 import org.HomeCooking.model.Restaurant;
 import org.HomeCooking.model.Restauration;
 import org.HomeCooking.model.Utilisateur;
@@ -70,9 +70,24 @@ public class WS {
 	@Path("/recherche/restauration/{nom}")
 	@Produces("application/json")
 	public Response affichePremierUser(@PathParam("nom") String nom) {
-		TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r WHERE r.nom LIKE '%:?%' OR r.ingredients LIKE '%:?%' ", Restauration.class).setParameter(1,nom).setParameter(2,nom);
-		List<Restauration> restaurations = requete.getResultList();
+		List<Restauration> restaurations = null;
+		TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r WHERE r.nom LIKE CONCAT('%',:pNom,'%')", Restauration.class).setParameter("pNom" ,nom);
+		//TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r WHERE r.nom LIKE '%:?%' OR r.ingredients LIKE '%:?%' ", Restauration.class).setParameter(1,nom).setParameter(2,nom);
+		restaurations = requete.getResultList();
 		return Response.ok(restaurations).build();
+	}
+	
+	@GET
+	@Path("/debug")
+	//@Produces("application/json")
+	public String debug() {
+		
+		System.out.println("Hello");
+		
+		return("debug");
+		
+		//List<Restaurant> listRestaurants = em.createQuery("SELECT r FROM Restaurant r ", Restaurant.class).getResultList();
+		//return Response.ok(listRestaurants).build();
 	}
 
 }
