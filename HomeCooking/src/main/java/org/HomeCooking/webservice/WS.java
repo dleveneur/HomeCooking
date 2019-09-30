@@ -1,6 +1,9 @@
 package org.HomeCooking.webservice;
 
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -17,6 +20,8 @@ import javax.ws.rs.core.Response;
 import org.HomeCooking.model.Restaurant;
 import org.HomeCooking.model.Restauration;
 import org.HomeCooking.model.Utilisateur;
+
+import LecteurFichiers.JSON;
 
 @Stateless
 @Path("/ws")
@@ -78,16 +83,63 @@ public class WS {
 	}
 	
 	@GET
-	@Path("/debug")
-	//@Produces("application/json")
-	public String debug() {
+	@Path("/csv/restaurations")
+	@Produces("application/json")
+	public String csvRestauration() {
 		
-		System.out.println("Hello");
+		List<Restauration> restaurations = null;
+		TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r", Restauration.class);
+		//TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r WHERE r.nom LIKE '%:?%' OR r.ingredients LIKE '%:?%' ", Restauration.class).setParameter(1,nom).setParameter(2,nom);
+		restaurations = requete.getResultList();
+		
+		return restaurations.toString();
+		
+		//JSON donneesRestauration = new JSON();
+		/*
+		donneesRestauration.getList(restaurations.toString());
+		
+		
+		// Our example data
+		List<List<String>> rows = Arrays.asList(
+		    Arrays.asList("Jean", "author", "Java"),
+		    Arrays.asList("David", "editor", "Python"),
+		    Arrays.asList("Scott", "editor", "Node.js")
+		);
+		
+
+		FileWriter csvWriter;
+		try {
+			csvWriter = new FileWriter("C:\\Users\\ryan.miranville\\Desktop\\CSV\\new.csv");
+			
+			csvWriter.append("Name");
+			csvWriter.append(",");
+			csvWriter.append("Role");
+			csvWriter.append(",");
+			csvWriter.append("Topic");
+			csvWriter.append("\n");
+
+			for (List<String> rowData : rows) {
+			    csvWriter.append(String.join(",", rowData));
+			    csvWriter.append("\n");
+			}
+
+			csvWriter.flush();
+			csvWriter.close();
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
 		
 		return("debug");
+		*/
 		
-		//List<Restaurant> listRestaurants = em.createQuery("SELECT r FROM Restaurant r ", Restaurant.class).getResultList();
-		//return Response.ok(listRestaurants).build();
+		
+		
 	}
 
 }
