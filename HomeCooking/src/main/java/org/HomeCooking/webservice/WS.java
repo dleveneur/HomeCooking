@@ -6,12 +6,14 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.AgentTicket.model.Agent;
 import org.HomeCooking.model.Restaurant;
 import org.HomeCooking.model.Restauration;
 import org.HomeCooking.model.Utilisateur;
@@ -63,11 +65,13 @@ public class WS {
 		return Response.ok(listRestaurants).build();
 	}
 	
+	// recherche d'un plat via le nom
 	@GET
 	@Path("/recherche/restauration/{nom}")
 	@Produces("application/json")
 	public Response affichePremierUser(@PathParam("nom") String nom) {
-		List<Restauration> restaurations = em.createQuery("SELECT r FROM Restauration r WHERE (nom LIKE :nom OR ingredients LIKE :nom) ", Restauration.class).setParameter("nom",nom).getResultList();
+		TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r WHERE r.nom LIKE '%:?%' OR r.ingredients LIKE '%:?%' ", Restauration.class).setParameter(1,nom).setParameter(2,nom);
+		List<Restauration> restaurations = requete.getResultList();
 		return Response.ok(restaurations).build();
 	}
 
