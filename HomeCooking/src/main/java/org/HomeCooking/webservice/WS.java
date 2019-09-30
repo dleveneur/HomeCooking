@@ -46,7 +46,7 @@ public class WS {
    
 	// recherche utilisateur par l'id
 	@GET
-	@Path("/utilisateur/{id}")
+	@Path("/utilisateur/id/{id}")
 	@Produces("application/json")
 	public Response getUserById(@PathParam("id") Long id) {
 		Utilisateur utilisateur = em.find(Utilisateur.class, id);
@@ -55,7 +55,7 @@ public class WS {
 	
 	// recherche utilisateur par le nom
 	@GET
-	@Path("/utilisateur/{nom}")
+	@Path("/utilisateur/nom/{nom}")
 	@Produces("application/json")
 	public Response getUserById(@PathParam("nom") String nom) {
 		List<Utilisateur> list = em.createQuery("SELECT u FROM Utilisateur u WHERE u.nom LIKE '%:nom%' ", Utilisateur.class).setParameter("nom",nom).getResultList();
@@ -100,16 +100,16 @@ public class WS {
 	
 	// recherche de restaurant par l'id
 	@GET
-	@Path("/recherche/restaurant/{id}")
+	@Path("/recherche/restaurant/id/{id}")
 	@Produces("application/json")
-	public Response getRestaurantById(@PathParam("id") int id) {
+	public Response getRestaurantById(@PathParam("id") Long id) {
 		List<Restaurant> listRestaurants = em.createQuery("SELECT r FROM Restaurant r WHERE r.id = :id ", Restaurant.class).setParameter("id", id).getResultList();
 		return Response.ok(listRestaurants).build();
 	}
 	
 	// recherche de restaurant par le nom
 	@GET
-	@Path("/recherche/restaurant/{nom}")
+	@Path("/recherche/restaurant/nom/{nom}")
 	@Produces("application/json")
 	public Response getRestaurantByName(@PathParam("nom") String nom) {
 		List<Restaurant> listRestaurants = em.createQuery("SELECT r FROM Restaurant r WHERE r.nom = :nom ", Restaurant.class).setParameter("nom", nom).getResultList();
@@ -127,19 +127,18 @@ public class WS {
 	
 	// recherche d'une restauration via l'id
 	@GET
-	@Path("/recherche/restauration/{id}")
+	@Path("/recherche/restauration/id/{id}")
 	@Produces("application/json")
-	public Response getRestaurationByName(@PathParam("id") int id) {
+	public Response getRestaurationByName(@PathParam("id") Long id) {
 		List<Restauration> restaurations = null;
 		TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r WHERE r.id = :pId ", Restauration.class).setParameter("pId" ,id);
-		//TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r WHERE r.nom LIKE '%:?%' OR r.ingredients LIKE '%:?%' ", Restauration.class).setParameter(1,nom).setParameter(2,nom);
 		restaurations = requete.getResultList();
 		return Response.ok(restaurations).build();
 	}
 	
 	// recherche d'une restauration via le nom
 	@GET
-	@Path("/recherche/restauration/{nom}")
+	@Path("/recherche/restauration/nom/{nom}")
 	@Produces("application/json")
 	public Response getRestaurationByName(@PathParam("nom") String nom) {
 		List<Restauration> restaurations = null;
@@ -149,6 +148,51 @@ public class WS {
 		return Response.ok(restaurations).build();
 	}
 	
+	// recherche d'un plat via l'id
+	@GET
+	@Path("/recherche/plat/id/{id}")
+	@Produces("application/json")
+	public Response getPlatById(@PathParam("id") Long id) {
+		List<Restauration> restaurations = null;
+		TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r WHERE r.type = 'Plat' AND r.id = :id", Restauration.class).setParameter("id" ,id);
+		restaurations = requete.getResultList();
+		return Response.ok(restaurations).build();
+	}
+	
+	// recherche d'un plat via le nom
+	@GET
+	@Path("/recherche/plat/nom/{nom}")
+	@Produces("application/json")
+	public Response getPlatByName(@PathParam("nom") String nom) {
+		List<Restauration> restaurations = null;
+		TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r WHERE r.type = 'Plat' AND r.nom LIKE CONCAT('%',:pNom,'%')", Restauration.class).setParameter("pNom" ,nom);
+		restaurations = requete.getResultList();
+		return Response.ok(restaurations).build();
+	}
+	
+	// recherche d'une boisson via l'id
+	@GET
+	@Path("/recherche/boisson/id/{id}")
+	@Produces("application/json")
+	public Response getBoissonById(@PathParam("id") Long id) {
+		List<Restauration> restaurations = null;
+		TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r WHERE r.type = 'Boisson' AND r.id = :id", Restauration.class).setParameter("id" ,id);
+		restaurations = requete.getResultList();
+		return Response.ok(restaurations).build();
+	}
+	
+	// recherche d'une boisson via le nom
+	@GET
+	@Path("/recherche/boisson/nom/{nom}")
+	@Produces("application/json")
+	public Response getBoissonByName(@PathParam("nom") String nom) {
+		List<Restauration> restaurations = null;
+		TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r WHERE r.type = 'Boisson' AND r.nom LIKE CONCAT('%',:pNom,'%')", Restauration.class).setParameter("pNom" ,nom);
+		restaurations = requete.getResultList();
+		return Response.ok(restaurations).build();
+	}
+	
+		
 	@GET
 	@Path("/debug")
 	//@Produces("application/json")
