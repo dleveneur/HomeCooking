@@ -150,7 +150,7 @@ public class WS {
 	
 	// recherche d'un plat via l'id
 	@GET
-	@Path("/recherche/plat/id/{id}")
+	@Path("/recherche/plat/{id}")
 	@Produces("application/json")
 	public Response getPlatById(@PathParam("id") Long id) {
 		List<Restauration> restaurations = null;
