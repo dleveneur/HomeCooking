@@ -1,6 +1,7 @@
 package org.HomeCooking.webservice;
 
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
@@ -17,6 +18,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.HomeCooking.model.Commande;
 import org.HomeCooking.model.CommandeDetail;
@@ -236,64 +238,55 @@ public class WS {
 		
 	@GET
 	@Path("/csv/restaurations")
-	@Produces("application/json")
-	public String csvRestauration() {
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public Response csvRestauration() {
 		
 		List<Restauration> restaurations = null;
 		TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r", Restauration.class);
-		//TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r WHERE r.nom LIKE '%:?%' OR r.ingredients LIKE '%:?%' ", Restauration.class).setParameter(1,nom).setParameter(2,nom);
 		restaurations = requete.getResultList();
 		
-		restaurations.forEach( jlist -> return (jlist) );
-		
-		return restaurations.toString();
-		
-		//JSON donneesRestauration = new JSON();
-		/*
-		donneesRestauration.getList(restaurations.toString());
-		
-		
-		// Our example data
-		List<List<String>> rows = Arrays.asList(
-		    Arrays.asList("Jean", "author", "Java"),
-		    Arrays.asList("David", "editor", "Python"),
-		    Arrays.asList("Scott", "editor", "Node.js")
-		);
-		
+		File csvFile = new File("C:\\Users\\ryan.miranville\\Desktop\\CSV\\Restauration.csv");
 
 		FileWriter csvWriter;
 		try {
-			csvWriter = new FileWriter("C:\\Users\\ryan.miranville\\Desktop\\CSV\\new.csv");
+			csvWriter = new FileWriter(csvFile);
 			
-			csvWriter.append("Name");
-			csvWriter.append(",");
-			csvWriter.append("Role");
-			csvWriter.append(",");
-			csvWriter.append("Topic");
+			csvWriter.append("Id");
+			csvWriter.append(";");
+			csvWriter.append("Nom");
+			csvWriter.append(";");
+			csvWriter.append("Description");
+			csvWriter.append(";");
+			csvWriter.append("Type");
+			csvWriter.append(";");
+			csvWriter.append("Prix");
 			csvWriter.append("\n");
 
-			for (List<String> rowData : rows) {
-			    csvWriter.append(String.join(",", rowData));
+			for (Restauration  Data : restaurations) {
+			    csvWriter.append(Data.getId()+";"+Data.getNom()+";"+Data.getIngredients()+";"+Data.getType()+";"+Data.getPrix());
 			    csvWriter.append("\n");
 			}
 
 			csvWriter.flush();
 			csvWriter.close();
 			
-			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		
-		
-		
-		return("debug");
-		*/
-		
-		
+		return(getFile(csvFile,"Restauration.csv").build());
 		
 	}
+	
+	public ResponseBuilder getFile(File file,String fileName) {
+
+		ResponseBuilder response = Response.ok((Object) file);
+		response.header("Content-Disposition",
+				"attachment; filename="+fileName);
+		return response;
+
+	}
+	
 
 }
