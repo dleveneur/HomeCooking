@@ -122,7 +122,7 @@ public class WS {
 	@Path("/recherche/restaurant/nom/{nom}")
 	@Produces("application/json")
 	public Response getRestaurantByName(@PathParam("nom") String nom) {
-		List<Restaurant> listRestaurants = em.createQuery("SELECT r FROM Restaurant r WHERE r.nom = :nom ", Restaurant.class).setParameter("nom", nom).getResultList();
+		List<Restaurant> listRestaurants = em.createQuery("SELECT r FROM Restaurant r WHERE upper(r.nom) LIKE :nom ORDER BY r.id ", Restaurant.class).setParameter("nom", "%"+nom+"%").getResultList();
 		return Response.ok(listRestaurants).build();
 	}
 	
@@ -152,8 +152,7 @@ public class WS {
 	@Produces("application/json")
 	public Response getRestaurationByName(@PathParam("nom") String nom) {
 		List<Restauration> restaurations = null;
-		TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r WHERE r.nom LIKE CONCAT('%',:pNom,'%')", Restauration.class).setParameter("pNom" ,nom);
-		//TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r WHERE r.nom LIKE '%:?%' OR r.ingredients LIKE '%:?%' ", Restauration.class).setParameter(1,nom).setParameter(2,nom);
+		TypedQuery<Restauration> requete =	em.createQuery("SELECT r FROM Restauration r WHERE upper(r.nom) LIKE :nom ORDER BY r.id ", Restauration.class).setParameter("nom" , (("%"+nom+"%").toUpperCase()));
 		restaurations = requete.getResultList();
 		return Response.ok(restaurations).build();
 	}
