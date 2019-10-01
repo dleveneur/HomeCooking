@@ -33,8 +33,19 @@ public class Commande implements Serializable {
 	@Column(name = "dateCommande")
 	private Date dateCommande = new Date(System.currentTimeMillis());
 
+	@Column(name = "etat")
+	private Etat etat;
+
 	@Column(name = "prixTotal")
 	private float prixTotal;
+	
+	public Etat getEtat() {
+		return etat;
+	}
+
+	public void setEtat(Etat etat) {
+		this.etat = etat;
+	}
 
 	public float getPrixTotal() {
 		return prixTotal;
