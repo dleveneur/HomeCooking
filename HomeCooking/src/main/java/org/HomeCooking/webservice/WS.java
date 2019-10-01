@@ -4,6 +4,7 @@ package org.HomeCooking.webservice;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
@@ -245,11 +246,33 @@ public class WS {
 		TypedQuery<Restauration> requete	=	em.createQuery("SELECT r FROM Restauration r", Restauration.class);
 		restaurations = requete.getResultList();
 		
+		
+		
+		List<String> colonnes = null;
+		
+		Field[] fields = Restauration.class.getClass().getDeclaredFields();
+        for(int i = 0; i < fields.length; i++) {
+        	colonnes.add(fields[i].toString());
+           System.out.println("Field = " + fields[i].toString());
+        }
+        
+        List<String> values = null;
+        
+		for (Restauration  Data : restaurations) {
+			values.add(Data.getId()+";"+Data.getNom()+";"+Data.getIngredients()+";"+Data.getType()+";"+Data.getPrix());
+		}
+        
 		File csvFile = new File("C:\\Users\\ryan.miranville\\Desktop\\CSV\\Restauration.csv");
+		
+		createCSV(csvFile, colonnes, values);
+		
+		//File csvFile = new File("C:\\Users\\ryan.miranville\\Desktop\\CSV\\Restauration.csv");
 
+		/*
 		FileWriter csvWriter;
 		try {
 			csvWriter = new FileWriter(csvFile);
+			
 			
 			csvWriter.append("Id");
 			csvWriter.append(";");
@@ -261,8 +284,11 @@ public class WS {
 			csvWriter.append(";");
 			csvWriter.append("Prix");
 			csvWriter.append("\n");
+			
+			
 
 			for (Restauration  Data : restaurations) {
+				values.add(Data.getId()+";"+Data.getNom()+";"+Data.getIngredients()+";"+Data.getType()+";"+Data.getPrix());
 			    csvWriter.append(Data.getId()+";"+Data.getNom()+";"+Data.getIngredients()+";"+Data.getType()+";"+Data.getPrix());
 			    csvWriter.append("\n");
 			}
@@ -274,6 +300,7 @@ public class WS {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 		
 		return(getFile(csvFile,"Restauration.csv").build());
 		
@@ -286,6 +313,35 @@ public class WS {
 				"attachment; filename="+fileName);
 		return response;
 
+	}
+	
+	public void createCSV(File file, List<String> colonnes, List<String> values) {
+		
+		File csvFile = file;
+
+		FileWriter csvWriter;
+		try {
+			csvWriter = new FileWriter(csvFile);
+			
+
+			for (String  Data : colonnes) {
+			    csvWriter.append(String.join(";", Data));
+			    csvWriter.append("\n");
+			}
+			
+			for (String  Data : values) {
+			    csvWriter.append(String.join(";", Data));
+			    csvWriter.append("\n");
+			}
+
+			csvWriter.flush();
+			csvWriter.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 
