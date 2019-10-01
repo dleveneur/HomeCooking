@@ -153,7 +153,9 @@ public class WS {
 	@Produces("application/json")
 	public Response getRestaurationByName(@PathParam("nom") String nom) {
 		List<Restauration> restaurations = null;
-		TypedQuery<Restauration> requete =	em.createQuery("SELECT r FROM Restauration r WHERE upper(r.nom) LIKE :nom ORDER BY r.id ", Restauration.class).setParameter("nom" , (("%"+nom+"%").toUpperCase()));
+		//TypedQuery<Restauration> requete =	em.createQuery("SELECT r FROM Restauration r WHERE upper(r.nom) LIKE :nom ORDER BY r.id ", Restauration.class).setParameter("nom" , (("%"+nom+"%").toUpperCase()));
+		TypedQuery<Restauration> requete =	em.createQuery("SELECT r FROM Restauration r WHERE upper(r.nom) LIKE upper(:pNom) ORDER BY r.id ", Restauration.class).setParameter("pNom" ,("%"+nom+"%"));
+		
 		restaurations = requete.getResultList();
 		return Response.ok(restaurations).build();
 	}
