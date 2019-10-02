@@ -4,6 +4,12 @@ angular.module('homeCooking').controller('NewCommandeController', function ($sco
     $scope.$location = $location;
     $scope.commande = $scope.commande || {};
     
+    $scope.etatList = [
+        "EnCours",
+        "Facturée",
+        "Annulée"
+    ];
+    
     $scope.clientList = UtilisateurResource.queryAll(function(items){
         $scope.clientSelectionList = $.map(items, function(item) {
             return ( {

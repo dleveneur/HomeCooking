@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 import java.io.Serializable;
 import javax.persistence.Version;
 
@@ -38,6 +41,7 @@ public class Utilisateur implements Serializable {
 	@Column(name = "numeroTel")
 	private String numeroTel;
 
+	@Enumerated(EnumType.STRING)
 	@Column(name = "role")
 	private Role role;
 

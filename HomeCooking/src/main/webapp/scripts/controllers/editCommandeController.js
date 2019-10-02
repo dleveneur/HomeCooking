@@ -89,6 +89,11 @@ angular.module('homeCooking').controller('EditCommandeController', function($sco
         $scope.commande.$remove(successCallback, errorCallback);
     };
     
+    $scope.etatList = [
+        "EnCours",  
+        "Facturée",  
+        "Annulée"  
+    ];
     $scope.$watch("clientSelection", function(selection) {
         if (typeof selection != 'undefined') {
             $scope.commande.client = {};

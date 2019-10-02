@@ -23,7 +23,7 @@ angular.module('homeCooking').controller('NewCommandeDetailController', function
         $scope.commandeSelectionList = $.map(items, function(item) {
             return ( {
                 value : item.id,
-                text : item.prixTotal
+                text : item.etat
             });
         });
     });

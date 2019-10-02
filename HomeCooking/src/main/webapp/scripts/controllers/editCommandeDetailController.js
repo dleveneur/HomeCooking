@@ -33,7 +33,7 @@ angular.module('homeCooking').controller('EditCommandeDetailController', functio
                     };
                     var labelObject = {
                         value : item.id,
-                        text : item.prixTotal
+                        text : item.etat
                     };
                     if($scope.commandeDetail.commande && item.id == $scope.commandeDetail.commande.id) {
                         $scope.commandeSelection = labelObject;

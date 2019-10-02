@@ -20,17 +20,16 @@ public class CommandeDetail implements Serializable {
 	@Version
 	@Column(name = "version")
 	private int version;
-	
+
 	@Column(name = "quantite")
 	private int quantite;
-	
+
 	@OneToOne
 	private Restauration restauration;
-	
+
 	@OneToOne
 	private Commande commande;
 
-	
 	public int getQuantite() {
 		return quantite;
 	}

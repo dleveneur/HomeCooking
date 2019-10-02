@@ -38,7 +38,7 @@ public class Commande implements Serializable {
 
 	@Column(name = "prixTotal")
 	private float prixTotal;
-	
+
 	public Etat getEtat() {
 		return etat;
 	}

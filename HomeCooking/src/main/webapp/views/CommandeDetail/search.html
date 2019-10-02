@@ -29,7 +29,7 @@
     <div class="form-group">
         <label for="commande" class="col-sm-2 control-label">Commande</label>
         <div class="col-sm-10">
-            <select id="commande" name="commande" class="form-control" ng-model="search.commande" ng-options="c as c.prixTotal for c in commandeList">
+            <select id="commande" name="commande" class="form-control" ng-model="search.commande" ng-options="c as c.etat for c in commandeList">
                 <option value="">Choose a Commande</option>
             </select>
         </div>
@@ -59,7 +59,7 @@
                 <tr ng-repeat="result in filteredResults | startFrom:currentPage*pageSize | limitTo:pageSize">
                     <td><a href="#/CommandeDetails/edit/{{result.id}}">{{result.quantite}}</a></td>
                         <td><a href="#/CommandeDetails/edit/{{result.id}}">{{result.restauration.nom}}</a></td>
-                        <td><a href="#/CommandeDetails/edit/{{result.id}}">{{result.commande.prixTotal}}</a></td>
+                        <td><a href="#/CommandeDetails/edit/{{result.id}}">{{result.commande.etat}}</a></td>
                 </tr>
             </tbody>
         </table>

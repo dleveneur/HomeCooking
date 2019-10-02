@@ -13,9 +13,7 @@ import javax.persistence.Version;
 
 @Entity
 public class Restauration implements Serializable {
-	
-	
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
@@ -24,22 +22,20 @@ public class Restauration implements Serializable {
 	@Version
 	@Column(name = "version")
 	private int version;
-	
+
 	@Column(name = "nom")
 	private String nom;
-	
+
 	@Column(name = "prix")
 	private float prix;
-	
-	@Column(name = "ingredients", columnDefinition="TEXT")
+
+	@Column(name = "ingredients", columnDefinition = "TEXT")
 	private String ingredients;
-	
-	
+
 	@Column(name = "type")
 	@Enumerated(EnumType.STRING)
 	private Type type;
 
-	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

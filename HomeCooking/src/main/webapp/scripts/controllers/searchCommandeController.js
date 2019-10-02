@@ -17,6 +17,11 @@ angular.module('homeCooking').controller('SearchCommandeController', function($s
         }
         return max;
     };
+    $scope.etatList = [
+        "EnCours",
+        "Facturée",
+        "Annulée"
+    ];
     $scope.clientList = UtilisateurResource.queryAll();
     $scope.restaurantList = RestaurantResource.queryAll();
 
