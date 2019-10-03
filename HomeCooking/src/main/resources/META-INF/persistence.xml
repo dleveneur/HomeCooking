@@ -5,17 +5,8 @@
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <jta-data-source>java:/PostgresHomeCooking</jta-data-source>
     <properties>
-<<<<<<< HEAD
-<<<<<<< HEAD
       <property name="hibernate.hbm2ddl.auto" value="update"/>
-      <property name="hibernate.show_sql" value="false"/>
-=======
-      <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
-=======
-      <property name="hibernate.hbm2ddl.auto" value="update"/>
->>>>>>> 4ced47f7bc500ba236e7d249047582800883c78c
       <property name="hibernate.show_sql" value="true"/>
->>>>>>> 5d6a1713277866cf285ce994d3628b9762b14146
     </properties>
   </persistence-unit>
 </persistence>
