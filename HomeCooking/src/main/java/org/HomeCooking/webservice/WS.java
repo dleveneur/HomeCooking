@@ -4,7 +4,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.security.DenyAll;
@@ -25,13 +29,13 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.HomeCooking.model.Commande;
 import org.HomeCooking.model.CommandeDetail;
-//import org.AgentTicket.model.Agent;
 import org.HomeCooking.model.Restaurant;
 import org.HomeCooking.model.Restauration;
 import org.HomeCooking.model.Utilisateur;
-import org.json.simple.JSONObject;
+<<<<<<< HEAD
+=======
 
-import LecteurFichiers.JSON;
+>>>>>>> 5d6a1713277866cf285ce994d3628b9762b14146
 
 
 @Stateless
@@ -150,6 +154,33 @@ public class WS {
 	public Response getAllRestaurations() {
 		List<Restauration> listRestaurants = em.createQuery("SELECT r FROM Restauration r ", Restauration.class)
 				.getResultList();
+		
+		
+		//TEST
+		String directory = System.getenv("SystemDrive")+File.separator+"HomeCooking"+File.separator+"CSV"+File.separator;
+		File fic = new File(directory);
+		java.nio.file.Path path = Paths.get(directory);
+				
+		if (Files.isDirectory(path)) {
+			
+			System.out.println("Chemin CSV ok");
+			
+			
+		}
+		else {
+			if( fic.mkdirs() ){
+				
+				// creating the directory succeeded
+			      System.out.println("Le chemin a été généré (CSV)");
+			    }
+				
+			    else
+			    {
+			      // creating the directory failed
+			      System.out.println("Erreur lors de la création du chemin (CSV)");
+			    }
+		}
+		
 		return Response.ok(listRestaurants).build();
 	}
 
@@ -286,6 +317,8 @@ public class WS {
 	@Path("/csv/restaurations")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response csvRestauration() {
+		
+		System.out.println(System.getProperty("user.dir"));
 
 		List<Restauration> restaurations = null;
 		TypedQuery<Restauration> requete = em.createQuery("SELECT r FROM Restauration r", Restauration.class);
@@ -375,5 +408,32 @@ public class WS {
 		}
 
 	}
+	
+	// recherche d'une restauration via l'id
+		@PermitAll
+		@GET
+		@Path("/recherche/restauration/{id}")
+		@Produces("application/json")
+		public Response getSearchList(@PathParam("id") Long id) {
+			List<Restauration> restaurations = null;
+			TypedQuery<Restauration> requete = em
+					.createQuery("SELECT r FROM Restauration r", Restauration.class)
+					.setParameter("pId", id);
+			restaurations = requete.getResultList();
+			HashMap<Integer, String> tmp = new HashMap<Integer, String>();
+			
+			for(Restauration r : restaurations){
+				
+				String[] cherche = r.getNom().split(" ");
+				for(String s : cherche) {
+					tmp.put(Integer.parseInt(r.getId()+"") , s);
+				}
+				
+			}
+			
+			
+			
+			return Response.ok(restaurations).build();
+		}
 
 }

@@ -10,8 +10,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Version;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 public class Commande implements Serializable {
 
 	@Id
