@@ -1,45 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-
-	<display-name>HomeCooking</display-name>
-	<session-config>
-
-		<session-timeout>30</session-timeout>
-	</session-config>
-	<mime-mapping>
-
-		<extension>ico</extension>
-		<mime-type>image/x-icon</mime-type>
-	</mime-mapping>
-	<welcome-file-list>
-
-		<welcome-file>/index.html</welcome-file>
-	</welcome-file-list>
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>secure</web-resource-name>
-			<url-pattern>/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>Admin</role-name>
-		</auth-constraint>
-	</security-constraint>
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>Public</web-resource-name>
-			<url-pattern>/rest/ws/*</url-pattern>
-		</web-resource-collection>
-	</security-constraint>
-	<security-role>
-
-		<description>The role that is requiered to log in to /*</description>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+<display-name>HomeCooking</display-name>
+  <session-config>
+	<session-timeout>30</session-timeout>
+  </session-config>
+  <mime-mapping>
+	<extension>ico</extension>
+    <mime-type>image/x-icon</mime-type>
+  </mime-mapping>
+  <welcome-file-list>
+	<welcome-file>/index.html</welcome-file>
+  </welcome-file-list>
+  <security-constraint>
+    <auth-constraint>
 		<role-name>Admin</role-name>
-	</security-role>
-	<login-config>
-
-		<auth-method>BASIC</auth-method>
-		<realm-name>application-security</realm-name>
-	</login-config>
+    </auth-constraint>
+  </security-constraint>
+  <security-constraint>
+	<web-resource-collection>
+		<web-resource-name>Public</web-resource-name>
+      <url-pattern>/*</url-pattern>
+    </web-resource-collection>
+  </security-constraint>
+  <security-role>
+	<description>The role that is requiered to log in to /*</description>
+    <role-name>Admin</role-name>
+  </security-role>
+  <login-config>
+	<auth-method>BASIC</auth-method>
+    <realm-name>application-security</realm-name>
+  </login-config>
 </web-app>

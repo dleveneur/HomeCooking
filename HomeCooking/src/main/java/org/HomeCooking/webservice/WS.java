@@ -25,13 +25,10 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.HomeCooking.model.Commande;
 import org.HomeCooking.model.CommandeDetail;
-//import org.AgentTicket.model.Agent;
 import org.HomeCooking.model.Restaurant;
 import org.HomeCooking.model.Restauration;
 import org.HomeCooking.model.Utilisateur;
-import org.json.simple.JSONObject;
 
-import LecteurFichiers.JSON;
 
 
 @Stateless
