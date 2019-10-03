@@ -150,33 +150,6 @@ public class WS {
 	public Response getAllRestaurations() {
 		List<Restauration> listRestaurants = em.createQuery("SELECT r FROM Restauration r ", Restauration.class)
 				.getResultList();
-		
-		
-		//TEST
-		String directory = System.getenv("SystemDrive")+File.separator+"HomeCooking"+File.separator+"CSV"+File.separator;
-		File fic = new File(directory);
-		java.nio.file.Path path = Paths.get(directory);
-				
-		if (Files.isDirectory(path)) {
-			
-			System.out.println("Chemin CSV ok");
-			
-			
-		}
-		else {
-			if( fic.mkdirs() ){
-				
-				// creating the directory succeeded
-			      System.out.println("Le chemin a été généré (CSV)");
-			    }
-				
-			    else
-			    {
-			      // creating the directory failed
-			      System.out.println("Erreur lors de la création du chemin (CSV)");
-			    }
-		}
-		
 		return Response.ok(listRestaurants).build();
 	}
 
@@ -309,36 +282,50 @@ public class WS {
 		return Response.ok(commandeDetail).build();
 	}
 
+	@PermitAll
 	@GET
 	@Path("/csv/restaurations")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response csvRestauration() {
 		
-		System.out.println(System.getProperty("user.dir"));
-
+		
 		List<Restauration> restaurations = null;
 		TypedQuery<Restauration> requete = em.createQuery("SELECT r FROM Restauration r", Restauration.class);
 		restaurations = requete.getResultList();
+		
 
-		List<String> colonnes = null;
+		//List<String> colonnes = null;
+		//colonnes.add("nom");
+		//colonnes.add("prenom");
+		
 
-		Field[] fields = Restauration.class.getClass().getDeclaredFields();
+		//Field[] fields = Restauration.class.getClass().getDeclaredFields();
+		
+		/*
+		 * 
 		for (int i = 0; i < fields.length; i++) {
 			colonnes.add(fields[i].toString());
 			System.out.println("Field = " + fields[i].toString());
 		}
+		*/
 
-		List<String> values = null;
+		//List<String> values = null;
+		//values.add("Miranville;Ryan");
 
+		/*
 		for (Restauration Data : restaurations) {
 			values.add(Data.getId() + ";" + Data.getNom() + ";" + Data.getIngredients() + ";" + Data.getType() + ";"
 					+ Data.getPrix());
 		}
+		*/
+		
+		
+		//File csvFile = new File("C:\\Users\\ryan.miranville\\Desktop\\CSV\\Restauration.csv");
+		//File csvFile = new File(directory+ Restauration.csv");
 
-		File csvFile = new File("C:\\Users\\ryan.miranville\\Desktop\\CSV\\Restauration.csv");
-
-		createCSV(csvFile, colonnes, values);
-
+		//File fichierCSV = createCSV("Restauration_test.csv", colonnes, values);
+		File fichierCSV = new File("C:\\HomeCooking\\CSV\\Restauration_test.csv");
+		
 		// File csvFile = new
 		// File("C:\\Users\\ryan.miranville\\Desktop\\CSV\\Restauration.csv");
 
@@ -365,10 +352,12 @@ public class WS {
 		 * e.printStackTrace(); }
 		 */
 
-		return (getFile(csvFile, "Restauration.csv").build());
+		//return (getFile(fichierCSV, "Restauration.csv").build());
+		return Response.ok(restaurations).build();
 
 	}
 
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public ResponseBuilder getFile(File file, String fileName) {
 
 		ResponseBuilder response = Response.ok((Object) file);
@@ -377,9 +366,33 @@ public class WS {
 
 	}
 
-	public void createCSV(File file, List<String> colonnes, List<String> values) {
-
-		File csvFile = file;
+	
+	public File createCSV(String nomFic, List<String> colonnes, List<String> values) {
+		//nomFic avec extension
+		
+		//REPERTOIRE AUTO
+		String directory = System.getenv("SystemDrive")+File.separator+"HomeCooking"+File.separator+"CSV"+File.separator;
+		File rep = new File(directory);
+		java.nio.file.Path path = Paths.get(directory);
+				
+		if (Files.isDirectory(path)) {
+			System.out.println("Chemin CSV ok");
+		}
+		else {
+			if( rep.mkdirs() ){
+				
+				// Création des répertoires - SUCCES
+			      System.out.println("Le chemin a été généré (CSV)");
+			    }
+				
+			    else
+			    {
+			      // Création des répertoires - ERREURS
+			      System.out.println("Erreur lors de la création du chemin (CSV)");
+			    }
+		}
+		
+		File csvFile = new File(directory+nomFic);
 
 		FileWriter csvWriter;
 		try {
@@ -402,19 +415,21 @@ public class WS {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return csvFile;
 
 	}
 	
 	// recherche d'une restauration via l'id
 		@PermitAll
 		@GET
-		@Path("/recherche/restauration/{id}")
+		@Path("/recherche/restauration/{mot}")
 		@Produces("application/json")
-		public Response getSearchList(@PathParam("id") Long id) {
+		public Response getSearchList(@PathParam("mot") String mot) {
 			List<Restauration> restaurations = null;
 			TypedQuery<Restauration> requete = em
 					.createQuery("SELECT r FROM Restauration r", Restauration.class)
-					.setParameter("pId", id);
+					.setParameter("pId", mot);
 			restaurations = requete.getResultList();
 			HashMap<Integer, String> tmp = new HashMap<Integer, String>();
 			
@@ -426,7 +441,6 @@ public class WS {
 				}
 				
 			}
-			
 			
 			
 			return Response.ok(restaurations).build();

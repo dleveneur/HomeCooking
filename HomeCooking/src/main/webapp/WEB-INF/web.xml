@@ -28,9 +28,13 @@
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Public</web-resource-name>
-			<url-pattern>/rest/ws/*</url-pattern>
+			<url-pattern>/*</url-pattern>
 		</web-resource-collection>
+		<auth-constraint>
+			<role-name>Admin</role-name>
+		</auth-constraint>
 	</security-constraint>
+	
 	<security-role>
 		<description>The role that is requiered to log in to /*</description>
 		<role-name>Admin</role-name>
