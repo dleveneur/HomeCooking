@@ -33,9 +33,13 @@ import org.HomeCooking.model.Restaurant;
 import org.HomeCooking.model.Restauration;
 import org.HomeCooking.model.Utilisateur;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 5d6a1713277866cf285ce994d3628b9762b14146
+=======
+
+>>>>>>> 4ced47f7bc500ba236e7d249047582800883c78c
 
 
 @Stateless

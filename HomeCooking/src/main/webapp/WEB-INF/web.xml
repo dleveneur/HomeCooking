@@ -3,6 +3,7 @@
 <display-name>HomeCooking</display-name>
   <session-config>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <session-timeout>30</session-timeout>
   </session-config>
   <mime-mapping>
@@ -34,6 +35,8 @@
 
 		<description>The role that is requiered to log in to /*</description>
 =======
+=======
+>>>>>>> 4ced47f7bc500ba236e7d249047582800883c78c
 	<session-timeout>30</session-timeout>
   </session-config>
   <mime-mapping>
@@ -46,8 +49,12 @@
   <security-constraint>
     <auth-constraint>
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 5d6a1713277866cf285ce994d3628b9762b14146
 		<role-name>Admin</role-name>
+=======
+		<role-name>Admin</role-name> 
+>>>>>>> 4ced47f7bc500ba236e7d249047582800883c78c
 =======
 		<role-name>Admin</role-name> 
 >>>>>>> 4ced47f7bc500ba236e7d249047582800883c78c
