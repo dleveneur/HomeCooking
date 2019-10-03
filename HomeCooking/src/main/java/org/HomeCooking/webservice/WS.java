@@ -7,9 +7,11 @@ import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
@@ -18,6 +20,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.metamodel.ManagedType;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.Path;
@@ -276,7 +279,7 @@ public class WS {
 	public Response getDetailCommandeById(@PathParam("id") Long id) {
 		List<CommandeDetail> commandeDetail = null;
 		TypedQuery<CommandeDetail> requete = em
-				.createQuery("SELECT c FROM Commande c WHERE c.commande_id = :id ", CommandeDetail.class)
+				.createQuery("SELECT c FROM CommandeDetail c WHERE c.commande_id = :id ", CommandeDetail.class)
 				.setParameter("id", id);
 		commandeDetail = requete.getResultList();
 		return Response.ok(commandeDetail).build();
@@ -286,78 +289,77 @@ public class WS {
 	@GET
 	@Path("/csv/restaurations")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public Response csvRestauration() {
-		
+	public Response csvRestaurations() {
 		
 		List<Restauration> restaurations = null;
 		TypedQuery<Restauration> requete = em.createQuery("SELECT r FROM Restauration r", Restauration.class);
 		restaurations = requete.getResultList();
 		
-
-		//List<String> colonnes = null;
-		//colonnes.add("nom");
-		//colonnes.add("prenom");
+		String colonnes = "Id;Nom;Ingredients;Prix;Type";
 		
+		List<String> values = new ArrayList<String>();
 
-		//Field[] fields = Restauration.class.getClass().getDeclaredFields();
-		
-		/*
-		 * 
-		for (int i = 0; i < fields.length; i++) {
-			colonnes.add(fields[i].toString());
-			System.out.println("Field = " + fields[i].toString());
-		}
-		*/
-
-		//List<String> values = null;
-		//values.add("Miranville;Ryan");
-
-		/*
 		for (Restauration Data : restaurations) {
-			values.add(Data.getId() + ";" + Data.getNom() + ";" + Data.getIngredients() + ";" + Data.getType() + ";"
-					+ Data.getPrix());
+			values.add(Data.getId() + ";" + Data.getNom() + ";" + Data.getIngredients() + ";" + Data.getPrix() + ";"
+					+ Data.getType());
 		}
-		*/
 		
+		File fichierCSV = createCSV("Restauration.csv", colonnes, values);
 		
-		//File csvFile = new File("C:\\Users\\ryan.miranville\\Desktop\\CSV\\Restauration.csv");
-		//File csvFile = new File(directory+ Restauration.csv");
+		return (getFile(fichierCSV, "Restauration.csv").build());
 
-		//File fichierCSV = createCSV("Restauration_test.csv", colonnes, values);
-		File fichierCSV = new File("C:\\HomeCooking\\CSV\\Restauration_test.csv");
+	}
+	
+	@PermitAll
+	@GET
+	@Path("/csv/restaurants")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public Response csvRestaurants() {
 		
-		// File csvFile = new
-		// File("C:\\Users\\ryan.miranville\\Desktop\\CSV\\Restauration.csv");
+		List<Restaurant> restaurants = null;
+		TypedQuery<Restaurant> requete = em.createQuery("SELECT r FROM Restaurant r", Restaurant.class);
+		restaurants = requete.getResultList();
+		
+		String colonnes = "Id;Nom;Adresse;Numero;IdRestaurateur";
+		
+		List<String> values = new ArrayList<String>();
 
-		/*
-		 * FileWriter csvWriter; try { csvWriter = new FileWriter(csvFile);
-		 * 
-		 * 
-		 * csvWriter.append("Id"); csvWriter.append(";"); csvWriter.append("Nom");
-		 * csvWriter.append(";"); csvWriter.append("Description");
-		 * csvWriter.append(";"); csvWriter.append("Type"); csvWriter.append(";");
-		 * csvWriter.append("Prix"); csvWriter.append("\n");
-		 * 
-		 * 
-		 * 
-		 * for (Restauration Data : restaurations) {
-		 * values.add(Data.getId()+";"+Data.getNom()+";"+Data.getIngredients()+";"+Data.
-		 * getType()+";"+Data.getPrix());
-		 * csvWriter.append(Data.getId()+";"+Data.getNom()+";"+Data.getIngredients()+";"
-		 * +Data.getType()+";"+Data.getPrix()); csvWriter.append("\n"); }
-		 * 
-		 * csvWriter.flush(); csvWriter.close();
-		 * 
-		 * } catch (IOException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); }
-		 */
+		for (Restaurant Data : restaurants) {
+			values.add(Data.getId() + ";" + Data.getNom() + ";" + Data.getAdresse() + ";" + Data.getNumero() + ";"
+					+ Data.getRestaurateur().getId());
+		}
+		
+		File fichierCSV = createCSV("Restaurants.csv", colonnes, values);
+		
+		return (getFile(fichierCSV, "Restaurants.csv").build());
 
-		//return (getFile(fichierCSV, "Restauration.csv").build());
-		return Response.ok(restaurations).build();
+	}
+	
+	@PermitAll
+	@GET
+	@Path("/csv/commande/{id}")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	public Response csvCommandeDetailByIdCommande(@PathParam("id") Long id) {
+		
+		List<CommandeDetail> commandeDetails = null;
+		TypedQuery<CommandeDetail> requete = em.createQuery("SELECT cd FROM CommandeDetail cd WHERE cd.commande = :id ", CommandeDetail.class).setParameter("id", id);
+		commandeDetails = requete.getResultList();
+		
+		String colonnes = "Id;Quantité;IdCommande;IdRestauration;Restauration;Prix";
+		
+		List<String> values = new ArrayList<String>();
+
+		for (CommandeDetail Data : commandeDetails) {
+			values.add(Data.getId() + ";" + Data.getQuantite() + ";" + Data.getCommande().getId() + ";" + Data.getRestauration().getId() + ";"
+					+ Data.getRestauration().getNom()+";"+Data.getRestauration().getPrix());
+		}
+		
+		File fichierCSV = createCSV("Commande_"+id+".csv", colonnes, values);
+		
+		return (getFile(fichierCSV, "Commande_"+id+".csv").build());
 
 	}
 
-	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public ResponseBuilder getFile(File file, String fileName) {
 
 		ResponseBuilder response = Response.ok((Object) file);
@@ -366,8 +368,8 @@ public class WS {
 
 	}
 
-	
-	public File createCSV(String nomFic, List<String> colonnes, List<String> values) {
+	@PermitAll
+	public File createCSV(String nomFic, String colonnes, List<String> values) {
 		//nomFic avec extension
 		
 		//REPERTOIRE AUTO
@@ -398,15 +400,26 @@ public class WS {
 		try {
 			csvWriter = new FileWriter(csvFile);
 
-			for (String Data : colonnes) {
-				csvWriter.append(String.join(";", Data));
-				csvWriter.append("\n");
-			}
+			
+			csvWriter.append(colonnes);
+			
+			csvWriter.append("\n");
 
+			values.forEach( s -> {
+				try {
+					csvWriter.append(s);
+					csvWriter.append("\n");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
+			
+			/*
 			for (String Data : values) {
-				csvWriter.append(String.join(";", Data));
 				csvWriter.append("\n");
 			}
+			*/
 
 			csvWriter.flush();
 			csvWriter.close();
