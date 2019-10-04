@@ -37,8 +37,17 @@ import org.HomeCooking.model.Restauration;
 import org.HomeCooking.model.Utilisateur;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
 @Stateless
 @Path("/ws")
+@Produces({"application/json", "application/xml"})
+
 public class WS {
 
 	@PersistenceContext(unitName = "primary")
@@ -60,7 +69,26 @@ public class WS {
 	@GET
 	@Path("/utilisateur/id/{id}")
 	@Produces("application/json")
-	public Response getUserById(@PathParam("id") Long id) {
+	@Operation(summary = "Find pet by ID",
+    tags = {"utilisateurs"},
+    description = "Returns a pet when 0 < ID <= 10.  ID > 10 or nonintegers will simulate API error conditions",
+    responses = {
+		            @ApiResponse(description = "The utilisateur", content = @Content(
+		                    schema = @Schema(implementation = Utilisateur.class)
+		            )),
+		            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+		            @ApiResponse(responseCode = "404", description = "Pet not found")
+		    })
+	public Response getUserById(@Parameter(
+            description = "ID of pet that needs to be fetched",
+            schema = @Schema(
+                    type = "integer",
+                    format = "int64",
+                    description = "param ID of pet that needs to be fetched",
+                    allowableValues = {"1","2","3"}
+            ),
+            required = true)
+			@PathParam("id") Long id) {
 		Utilisateur utilisateur = em.find(Utilisateur.class, id);
 		return Response.ok(utilisateur).build();
 	}
@@ -104,6 +132,8 @@ public class WS {
 	@GET
 	@Path("/restauration/plats")
 	@Produces("application/json")
+	
+	
 	public Response listPlats() {
 		List<Restauration> listP = em
 				.createQuery("SELECT p FROM Restauration p WHERE type = 'Plat' ", Restauration.class).getResultList();
@@ -458,5 +488,11 @@ public class WS {
 			
 			return Response.ok(restaurations).build();
 		}
+		
+		
+		
+		
+		
+		
 
 }

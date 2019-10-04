@@ -11,7 +11,11 @@ import javax.persistence.Enumerated;
 import java.io.Serializable;
 import javax.persistence.Version;
 
+
+import javax.xml.bind.annotation.XmlRootElement;
+
 @Entity
+@XmlRootElement(name = "OKK")
 public class Utilisateur implements Serializable {
 
 	@Id
